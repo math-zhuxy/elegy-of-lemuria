@@ -1,5 +1,5 @@
 <template>
-  <div id="app-header" v-if="IsPressBtn===true">
+  <div id="app-header" v-if="IsPressBtn === true">
     <h1 id="app-main-title">ELEGT OF LEMURA</h1>
     <div id="app-router">
       <router-link to="/">Home</router-link>
@@ -19,16 +19,18 @@ function Click() {
 }
 </script>
 <style scoped>
-#app-header{
+#app-header {
   justify-content: center;
   display: flex;
   gap: 20px;
   align-items: center;
 }
-#app-main-title{
+
+#app-main-title {
   text-align: center;
 }
-#app-router{
+
+#app-router {
   display: flex;
   gap: 20px;
   padding: 15px;
@@ -39,18 +41,19 @@ function Click() {
   align-items: center;
   font-weight: bold;
 }
-#app-router a{
+
+#app-router a {
   padding: 3px 12px;
   text-decoration: none;
   color: rgba(74, 58, 8, 0.703);
 }
 
-#app-router a:hover{
+#app-router a:hover {
   background-color: rgb(33, 209, 63);
 }
 
 #app-router a.router-link-exact-active {
-  border-bottom: 3px solid #0f3b27; 
+  border-bottom: 3px solid #0f3b27;
   color: black;
 }
 </style>

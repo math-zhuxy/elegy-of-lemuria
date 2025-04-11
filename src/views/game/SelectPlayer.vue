@@ -14,33 +14,40 @@
 </script>
 <style scoped>
 .center-container {
-  display: flex;
-  justify-content: center; 
+    display: flex;
+    justify-content: center;
 }
-#main-view{
+
+#main-view {
     overflow-x: auto;
     white-space: nowrap;
     width: 70vw;
     background-color: rgb(215, 189, 189);
 }
+
 #main-view::-webkit-scrollbar-track {
     display: none;
 }
+
 #main-view::-webkit-scrollbar-thumb {
     background-color: #b5696992;
     border-radius: 10px;
 }
+
 #main-view::-webkit-scrollbar-thumb:hover {
     background-color: #555;
     cursor: pointer;
 }
+
 #main-view::-webkit-scrollbar {
     width: 6px;
 }
-#main-view::-webkit-scrollbar-button{
+
+#main-view::-webkit-scrollbar-button {
     display: none;
 }
-.Player{
+
+.Player {
     margin: 5vh 5vw;
     width: 300px;
     height: 70vh;
@@ -49,5 +56,4 @@
     border-radius: 40px;
     display: inline-block;
 }
-
 </style>
