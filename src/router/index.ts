@@ -33,6 +33,11 @@ const router = createRouter({
       path: '/game/selectplayer',
       name: 'selectplayer',
       component: () => import('../views/game/SelectPlayer.vue')
+    },
+    {
+      path: '/game/battle',
+      name: 'battle',
+      component: () => import('../views/game/Battle.vue'),
     }
   ],
 })

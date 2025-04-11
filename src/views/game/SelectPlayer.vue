@@ -1,21 +1,25 @@
 <template>
-    <div id="main-view">
-        <div class="Player"></div>
-        <div class="Player"></div>
-        <div class="Player"></div>
-        <div class="Player"></div>
-        <div class="Player"></div>
-        <div class="Player"></div>
+    <div class="center-container">
+        <div id="main-view">
+            <div class="Player"></div>
+            <div class="Player"></div>
+            <div class="Player"></div>
+            <div class="Player"></div>
+            <div class="Player"></div>
+            <div class="Player"></div>
+        </div>
     </div>
 </template>
 <script setup lang="ts">
 </script>
 <style scoped>
+.center-container {
+  display: flex;
+  justify-content: center; 
+}
 #main-view{
     overflow-x: auto;
     white-space: nowrap;
-    margin-top: 5vh;
-    margin-left: 15vw;
     width: 70vw;
     background-color: rgb(215, 189, 189);
 }

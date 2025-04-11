@@ -8,7 +8,7 @@
       <router-link to="/login">Login</router-link>
     </div>
   </div>
-  <button @click="Click">登录</button>
+  <!-- <button @click="Click">登录</button> -->
   <router-view></router-view>
 </template>
 <script setup lang="ts">
