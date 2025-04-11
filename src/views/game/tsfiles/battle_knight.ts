@@ -15,7 +15,7 @@ export class KNIGHT_SPRITE {
             ctx,
             counter / BASIC_GAME_SETS.game_speed,
             4,
-            { x: this.pos_x, y: this.pos_y - 60 }
+            { x: this.pos_x, y: this.pos_y - 50 }
         );
     }
     DrawRun(ctx: CanvasRenderingContext2D, counter: number): void {
@@ -24,7 +24,7 @@ export class KNIGHT_SPRITE {
             ctx,
             counter / BASIC_GAME_SETS.game_speed,
             7,
-            { x: this.pos_x, y: this.pos_y - 60 }
+            { x: this.pos_x, y: this.pos_y - 50 }
         );
     }
     DrawAttack(ctx: CanvasRenderingContext2D, counter: number): void {
@@ -33,7 +33,7 @@ export class KNIGHT_SPRITE {
             ctx,
             counter / BASIC_GAME_SETS.game_speed,
             5,
-            { x: this.pos_x - 16, y: this.pos_y - 60 }
+            { x: this.pos_x - 16, y: this.pos_y - 50 }
         );
     }
 }

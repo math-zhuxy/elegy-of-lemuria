@@ -10,6 +10,7 @@ let game_key = '';
 function HandleKeydown(event: KeyboardEvent) {
     game_key = event.key;
 }
+let GameLoop: number;
 onMounted(() => {
     const canvas = document.getElementById('game') as HTMLCanvasElement;
     const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
@@ -17,7 +18,7 @@ onMounted(() => {
     GameBattleInit();
     let sss = new KNIGHT_SPRITE(10, 10);
     let cnt = 0;
-    const GameLoop = setInterval(() => {
+    GameLoop = setInterval(() => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         if(game_key === 'd'){
             sss.DrawRun(ctx, cnt);
@@ -33,6 +34,7 @@ onMounted(() => {
 })
 onUnmounted(() => {
     window.removeEventListener('keydown', HandleKeydown);
+    clearInterval(GameLoop);
 })
 
 </script>
