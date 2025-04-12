@@ -4,35 +4,37 @@
     </div>
 </template>
 <script setup lang="ts">
-import { KNIGHT_SPRITE } from './tsfiles/battle_knight';
 import { onMounted, onUnmounted } from 'vue';
-import {KEYBOARD, MOUSE } from './tsfiles/utils';
-import { ListManagement } from './tsfiles/battle_list';
+import { CAMERA, KEYBOARD, MOUSE } from './tsfiles/utils';
+import { GameSpriteManagement, ListManagement } from './tsfiles/battle_list';
 import { GameBattleInit } from './tsfiles/init';
 let GameLoop: number;
 GameBattleInit();
-// let sss = new KNIGHT_SPRITE(0, 0);
-const GameList = new ListManagement(3);
+let Test_Using_Knight = true;
 function HandleKeydown(event: KeyboardEvent) {
     KEYBOARD.KeyDown(event.key);
-    // if (event.key === 'e') {
-    //     sss.ChangeState("run")
-    // }
-    // else if (event.key === 'q') {
-    //     sss.ChangeState("attack");
-    // }
-    // else if(event.key === 't'){
-    //     sss.ChangeState("dead");
-    // }
-    // else {
-    //     sss.ChangeState('idle');
-    // };
+    if (event.key === 'q') {
+        Test_Using_Knight = true;
+    }
+    else if (event.key === 'e') {
+        Test_Using_Knight = false;
+    }
 }
 function HandleKeyUp(event: KeyboardEvent) {
     KEYBOARD.KeyUp(event.key);
 }
-let canvas:HTMLCanvasElement;
+
+let canvas: HTMLCanvasElement;
 let ctx: CanvasRenderingContext2D;
+const GameManage = new GameSpriteManagement()
+function HandleMouseClick(event: MouseEvent) {
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left + CAMERA.GetPos().x;
+    const y = event.clientY - rect.top + CAMERA.GetPos().y;
+    const set_index = Math.min(Math.floor(y / ListManagement.ListLength), 14);
+    if(Test_Using_Knight)GameManage.ListSet[set_index].AddKnight(x);
+    else GameManage.ListSet[set_index].AddEnemy(x);
+}
 function HandleMouseMove(event: MouseEvent) {
     const rect = canvas.getBoundingClientRect();
     const x = event.clientX - rect.left;
@@ -45,17 +47,11 @@ onMounted(() => {
     window.addEventListener('keydown', HandleKeydown);
     window.addEventListener('keyup', HandleKeyUp);
     window.addEventListener('mousemove', HandleMouseMove);
-    GameList.AddKnight(100);
-    GameList.AddKnight(200);
-    GameList.AddEnemy(300);
-    GameList.AddEnemy(400);
-    let cnt = 0;
+    window.addEventListener('click', HandleMouseClick);
     GameLoop = setInterval(() => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        // sss.DoAction(ctx);
-        cnt++;
         KEYBOARD.MoveCamera();
-        GameList.DoAllActions(ctx);
+        GameManage.DoAction(ctx);
         ctx.fillRect(MOUSE.GetPos().x, MOUSE.GetPos().y, 5, 5);
     }, 30);
 })
@@ -63,6 +59,7 @@ onUnmounted(() => {
     window.removeEventListener('keydown', HandleKeydown);
     window.removeEventListener('keyup', HandleKeyUp);
     window.removeEventListener('mousemove', HandleMouseMove);
+    window.removeEventListener('click', HandleMouseClick);
     clearInterval(GameLoop);
 })
 

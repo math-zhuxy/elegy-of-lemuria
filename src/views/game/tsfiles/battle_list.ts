@@ -31,4 +31,19 @@ export class ListManagement {
         });
     }
 }
-ListManagement.ListLength = 50;
+ListManagement.ListLength = 70;
+
+export class GameSpriteManagement {
+    ListNum: number;
+    ListSet: ListManagement[];
+    constructor() {
+        this.ListNum = 15;
+        this.ListSet = new Array<ListManagement>(this.ListNum);
+        for (let i = 0; i < this.ListNum; i++) {
+            this.ListSet[i] = new ListManagement(i);
+        }
+    }
+    DoAction(ctx: CanvasRenderingContext2D): void {
+        this.ListSet.forEach((ele) => ele.DoAllActions(ctx));
+    }
+}

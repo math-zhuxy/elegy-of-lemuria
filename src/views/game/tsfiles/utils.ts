@@ -15,16 +15,16 @@ export class CAMERA {
         d: boolean,
     ): void {
         if (w) {
-            this.pos_y -= this.speed;
+            if (this.pos_y > this.speed) this.pos_y -= this.speed;
         }
         if (a) {
-            this.pos_x -= this.speed;
+            if (this.pos_x > this.speed) this.pos_x -= this.speed;
         }
         if (s) {
-            this.pos_y += this.speed;
+            if (this.pos_y + this.speed + 600 < 1200) this.pos_y += this.speed;
         }
         if (d) {
-            this.pos_x += this.speed;
+            if (this.pos_x < 1000) this.pos_x += this.speed;
         }
     }
     static GetPos(): { x: number; y: number; } {
@@ -106,16 +106,16 @@ export function DrawGameSpriteImage(
     let spriteWidth = img.width / num_sprite;
     let spriteHeight = img.height;
     let spriteIndex = Math.floor(cnt) % num_sprite;
-    if(IsFliped)spriteIndex = num_sprite - spriteIndex - 1;
+    if (IsFliped) spriteIndex = num_sprite - spriteIndex - 1;
     ctx.drawImage(
         img,
         spriteIndex * spriteWidth,
         0,
-        spriteWidth,
+        spriteWidth - 5,
         spriteHeight,
         pos.x,
         pos.y,
-        spriteWidth,
+        spriteWidth - 5,
         spriteHeight
     );
 }

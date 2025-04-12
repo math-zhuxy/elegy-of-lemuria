@@ -29,7 +29,7 @@ export class ENEMY_SPRITE {
         this.hp = ENEMY_SPRITE.MaxHP;
         this.IsDead = false;
         this.IsDeading = false;
-        this.attack_zone = ENEMY_SPRITE.AttackZone;
+        this.attack_zone = Math.floor(ENEMY_SPRITE.AttackZone * (Math.random() * 0.15 + 0.85));
     }
     ChangeState(st: ENEMY_STATE): void {
         if (this.state === st) return;
@@ -99,9 +99,9 @@ export class ENEMY_SPRITE {
         }
         for (let i = 0; i < knight_list.length; i++) {
             let item = knight_list[i];
-            if (item.IsDead)continue;
+            if (item.IsDead) continue;
             if (item.pos_x < this.pos_x && item.pos_x > this.pos_x - this.attack_zone) {
-                if (this.state === "idle" || this.state === "move"){
+                if (this.state === "idle" || this.state === "move") {
                     this.ChangeState('attack');
                 }
                 if ((this.time_counter / BASIC_GAME_SETS.game_speed) % 5 === 4) {
@@ -110,7 +110,7 @@ export class ENEMY_SPRITE {
                 return;
             }
         }
-        if(this.state === 'attack') this.ChangeState('move');
+        if (this.state === 'attack') this.ChangeState('move');
     }
     DoAction(ctx: CanvasRenderingContext2D) {
         if (this.hp <= 0 && this.state !== 'dead') this.ChangeState('dead');
