@@ -16,6 +16,7 @@ export class ENEMY_SPRITE {
     hp: number;
     state: ENEMY_STATE;
     IsDead: boolean;
+    IsDeading: boolean;
     constructor(x: number, y: number) {
         this.pos_x = x;
         this.pos_y = y;
@@ -24,6 +25,7 @@ export class ENEMY_SPRITE {
         this.time_counter = 0;
         this.hp = ENEMY_SPRITE.MaxHP;
         this.IsDead = false;
+        this.IsDeading = false;
     }
     ChangeState(st: ENEMY_STATE): void {
         if (this.state === st) return;

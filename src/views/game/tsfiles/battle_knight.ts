@@ -11,6 +11,7 @@ export class KNIGHT_SPRITE {
     static MaxHP: number;
     static InitialAttack: number;
     IsDead: boolean;
+    private IsDeading: boolean;
 
     private pos_x: number;
     private pos_y: number;
@@ -27,6 +28,7 @@ export class KNIGHT_SPRITE {
         this.hp = KNIGHT_SPRITE.MaxHP;
         this.attack_level = KNIGHT_SPRITE.InitialAttack;
         this.IsDead = false;
+        this.IsDeading = false;
     }
     ChangeState(st: KNIGET_STATE): void {
         if (this.state === st) return;
@@ -90,12 +92,14 @@ export class KNIGHT_SPRITE {
         )
     }
     JudgeInAttackZone(enemy_list: ENEMY_SPRITE[]): void {
+        if(this.IsDeading) return;
         if (enemy_list.length === 0) {
             if (this.state === 'attack') this.ChangeState('idle');
             return;
         }
         for (let i = 0; i < enemy_list.length; i++) {
             let item = enemy_list[i];
+            if (item.IsDeading)continue;
             if (item.pos_x > this.pos_x && item.pos_x < this.pos_x + BASIC_GAME_SETS.attack_zone) {
                 if ((this.state === "idle" || this.state === "run") && item.state !== 'attack') {
                     this.ChangeState('attack');
@@ -104,14 +108,16 @@ export class KNIGHT_SPRITE {
                 if (item.state === 'attack' && (this.time_counter / BASIC_GAME_SETS.game_speed) % 5 === 4) {
                     item.hp -= this.attack_level;
                 }
-                if (this.state === 'attack' && (item.time_counter / BASIC_GAME_SETS.game_speed) % 5 === 2) {
+                if (this.state === 'attack' && (item.time_counter / BASIC_GAME_SETS.game_speed) % 6 === 4) {
                     this.hp -= item.attack_level;
                 }
                 if (item.hp <= 0) {
                     this.ChangeState('idle');
+                    item.IsDeading = true;
                 }
                 if (this.hp <= 0) {
                     item.ChangeState('move');
+                    this.IsDeading = true;
                 }
             }
         }
@@ -140,6 +146,7 @@ export class KNIGHT_SPRITE {
                 console.error("Unknown state: " + this.state);
         }
         if (this.hp > 0) this.DrawHpBar(ctx);
+        console.log(this.hp);
         this.time_counter++;
     }
 }
