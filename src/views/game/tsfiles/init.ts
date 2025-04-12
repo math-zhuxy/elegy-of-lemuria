@@ -3,7 +3,6 @@ import { KNIGHT_SPRITE } from "./battle_knight";
 export function GameBattleInit() {
     KNIGHT_SPRITE.MaxHP = 140;
     KNIGHT_SPRITE.InitialAttack = 10;
-    KNIGHT_SPRITE.AttackZone = 120;
 
     KNIGHT_SPRITE.IdleImage = new Image();
     KNIGHT_SPRITE.IdleImage.src = "/img/knight/Idle.png";

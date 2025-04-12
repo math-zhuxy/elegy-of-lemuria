@@ -10,7 +10,6 @@ export class KNIGHT_SPRITE {
 
     static MaxHP: number;
     static InitialAttack: number;
-    static AttackZone: number;
 
 
     pos_x: number;
@@ -94,7 +93,7 @@ export class KNIGHT_SPRITE {
         }
         for (let i = 0; i < enemy_list.length; i++) {
             let item = enemy_list[i];
-            if (item.pos_x > this.pos_x && item.pos_x < this.pos_x + KNIGHT_SPRITE.AttackZone) {
+            if (item.pos_x > this.pos_x && item.pos_x < this.pos_x + BASIC_GAME_SETS.attack_zone) {
                 if ((this.state === "idle" || this.state === "run") && item.state !== 'attack') {
                     this.ChangeState('attack');
                     item.ChangeState('attack');

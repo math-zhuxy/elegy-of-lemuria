@@ -1,6 +1,7 @@
 export const BASIC_GAME_SETS = {
     "game_speed": 6,
-    "camera_speed": 2
+    "camera_speed": 2,
+    "attack_zone": 100
 };
 export class CAMERA {
     private static pos_x: number = 0;
