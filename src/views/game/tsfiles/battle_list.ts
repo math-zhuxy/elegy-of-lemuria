@@ -15,11 +15,11 @@ export class ListManagement {
         this.EnemyList.push(new ENEMY_SPRITE(x, this.ListIndex * ListManagement.ListLength));
     }
     DoAllActions(ctx: CanvasRenderingContext2D): void {
-        this.EnemyList.forEach((item) => {
-            item.DoAction(ctx);
-        });
         this.KnightList.forEach((item) => {
             item.JudgeInAttackZone(this.EnemyList);
+            item.DoAction(ctx);
+        });
+        this.EnemyList.forEach((item) => {
             item.DoAction(ctx);
         });
         this.EnemyList = this.EnemyList.filter((item) => {

@@ -56,7 +56,8 @@ export class KNIGHT_SPRITE {
             ctx,
             this.time_counter / BASIC_GAME_SETS.game_speed,
             4,
-            { x: this.pos_x - CAMERA.GetPos().x, y: this.pos_y - CAMERA.GetPos().y - 50 }
+            { x: this.pos_x - CAMERA.GetPos().x, y: this.pos_y - CAMERA.GetPos().y - 50 },
+            false
         );
     }
     DrawRun(ctx: CanvasRenderingContext2D): void {
@@ -65,7 +66,8 @@ export class KNIGHT_SPRITE {
             ctx,
             this.time_counter / BASIC_GAME_SETS.game_speed,
             7,
-            { x: this.pos_x - CAMERA.GetPos().x, y: this.pos_y - CAMERA.GetPos().y - 50 }
+            { x: this.pos_x - CAMERA.GetPos().x, y: this.pos_y - CAMERA.GetPos().y - 50 },
+            false
         );
     }
     DrawAttack(ctx: CanvasRenderingContext2D): void {
@@ -74,7 +76,8 @@ export class KNIGHT_SPRITE {
             ctx,
             this.time_counter / BASIC_GAME_SETS.game_speed,
             5,
-            { x: this.pos_x - CAMERA.GetPos().x - 16, y: this.pos_y - CAMERA.GetPos().y - 50 }
+            { x: this.pos_x - CAMERA.GetPos().x - 16, y: this.pos_y - CAMERA.GetPos().y - 50 },
+            false
         );
     }
     DrawDead(ctx: CanvasRenderingContext2D): void {
@@ -83,7 +86,8 @@ export class KNIGHT_SPRITE {
             ctx,
             this.time_counter / BASIC_GAME_SETS.game_speed,
             6,
-            { x: this.pos_x - CAMERA.GetPos().x, y: this.pos_y - CAMERA.GetPos().y - 50 }
+            { x: this.pos_x - CAMERA.GetPos().x, y: this.pos_y - CAMERA.GetPos().y - 50 },
+            false
         )
     }
     JudgeInAttackZone(enemy_list: ENEMY_SPRITE[]): void {
