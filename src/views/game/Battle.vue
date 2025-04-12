@@ -4,11 +4,15 @@
     </div>
 </template>
 <script setup lang="ts">
-import { GameBattleInit, KNIGHT_SPRITE } from './tsfiles/battle_knight';
+import { KNIGHT_SPRITE } from './tsfiles/battle_knight';
 import { onMounted, onUnmounted } from 'vue';
-import {KEYBOARD } from './tsfiles/utils';
+import {KEYBOARD, MOUSE } from './tsfiles/utils';
+import { ListManagement } from './tsfiles/battle_list';
+import { GameBattleInit } from './tsfiles/init';
 let GameLoop: number;
+GameBattleInit();
 let sss = new KNIGHT_SPRITE(0, 0);
+const GameList = new ListManagement(3);
 function HandleKeydown(event: KeyboardEvent) {
     KEYBOARD.KeyDown(event.key);
     if (event.key === 'e') {
@@ -17,6 +21,9 @@ function HandleKeydown(event: KeyboardEvent) {
     else if (event.key === 'q') {
         sss.ChangeState("attack");
     }
+    else if(event.key === 't'){
+        sss.ChangeState("dead");
+    }
     else {
         sss.ChangeState('idle');
     };
@@ -24,23 +31,36 @@ function HandleKeydown(event: KeyboardEvent) {
 function HandleKeyUp(event: KeyboardEvent) {
     KEYBOARD.KeyUp(event.key);
 }
+let canvas:HTMLCanvasElement;
+let ctx: CanvasRenderingContext2D;
+function HandleMouseMove(event: MouseEvent) {
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    MOUSE.UpdatePos(x, y);
+}
 onMounted(() => {
-    const canvas = document.getElementById('game') as HTMLCanvasElement;
-    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+    canvas = document.getElementById('game') as HTMLCanvasElement;
+    ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
     window.addEventListener('keydown', HandleKeydown);
     window.addEventListener('keyup', HandleKeyUp);
-    GameBattleInit();
+    window.addEventListener('mousemove', HandleMouseMove);
+    GameList.AddKnight(100);
+    GameList.AddEnemy(200);
     let cnt = 0;
     GameLoop = setInterval(() => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         sss.DoAction(ctx);
         cnt++;
         KEYBOARD.MoveCamera();
+        GameList.DoAllActions(ctx);
+        ctx.fillRect(MOUSE.GetPos().x, MOUSE.GetPos().y, 5, 5);
     }, 30);
 })
 onUnmounted(() => {
     window.removeEventListener('keydown', HandleKeydown);
     window.removeEventListener('keyup', HandleKeyUp);
+    window.removeEventListener('mousemove', HandleMouseMove);
     clearInterval(GameLoop);
 })
 

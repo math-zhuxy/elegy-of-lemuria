@@ -6,7 +6,7 @@ export class CAMERA {
     private static pos_x: number = 0;
     private static pos_y: number = 0;
     private static speed: number = BASIC_GAME_SETS.camera_speed;
-    constructor() {}
+    constructor() { }
     static Move(
         w: boolean,
         a: boolean,
@@ -79,6 +79,18 @@ export class KEYBOARD {
             this.PressedS,
             this.PressedD
         );
+    }
+}
+
+export class MOUSE {
+    private static pos_x: number = 0;
+    private static pos_y: number = 0;
+    static UpdatePos(x: number, y: number): void {
+        this.pos_x = x;
+        this.pos_y = y;
+    }
+    static GetPos(): { x: number, y: number } {
+        return { x: this.pos_x, y: this.pos_y };
     }
 }
 
