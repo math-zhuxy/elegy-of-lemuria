@@ -23,10 +23,10 @@ export class ListManagement {
             item.DoAction(ctx);
         });
         this.EnemyList = this.EnemyList.filter((item) => {
-            return item.hp >= 0;
+            return !item.IsDead;
         });
         this.KnightList = this.KnightList.filter((item) => {
-            return item.hp >= 0;
+            return !item.IsDead;
         });
     }
 }

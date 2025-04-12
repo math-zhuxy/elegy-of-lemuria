@@ -47,8 +47,8 @@ onMounted(() => {
     window.addEventListener('mousemove', HandleMouseMove);
     GameList.AddKnight(100);
     GameList.AddKnight(200);
+    GameList.AddEnemy(300);
     GameList.AddEnemy(400);
-    GameList.AddEnemy(500);
     let cnt = 0;
     GameLoop = setInterval(() => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);

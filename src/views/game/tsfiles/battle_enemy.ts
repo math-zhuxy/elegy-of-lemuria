@@ -12,9 +12,10 @@ export class ENEMY_SPRITE {
     pos_x: number;
     pos_y: number;
     time_counter: number;
-    attack_level:number;
+    attack_level: number;
     hp: number;
     state: ENEMY_STATE;
+    IsDead: boolean;
     constructor(x: number, y: number) {
         this.pos_x = x;
         this.pos_y = y;
@@ -22,6 +23,7 @@ export class ENEMY_SPRITE {
         this.state = 'move';
         this.time_counter = 0;
         this.hp = ENEMY_SPRITE.MaxHP;
+        this.IsDead = false;
     }
     ChangeState(st: ENEMY_STATE): void {
         if (this.state === st) return;
@@ -31,16 +33,16 @@ export class ENEMY_SPRITE {
     DrawHpBar(ctx: CanvasRenderingContext2D): void {
         ctx.fillStyle = "black";
         ctx.fillRect(
-            this.pos_x - CAMERA.GetPos().x, 
-            this.pos_y - CAMERA.GetPos().y + 80, 
-            40, 
+            this.pos_x - CAMERA.GetPos().x,
+            this.pos_y - CAMERA.GetPos().y + 80,
+            40,
             5
         );
         ctx.fillStyle = "red";
         ctx.fillRect(
-            this.pos_x - CAMERA.GetPos().x, 
-            this.pos_y - CAMERA.GetPos().y + 80, 
-            Math.floor(40 * this.hp / ENEMY_SPRITE.MaxHP), 
+            this.pos_x - CAMERA.GetPos().x,
+            this.pos_y - CAMERA.GetPos().y + 80,
+            Math.floor(40 * this.hp / ENEMY_SPRITE.MaxHP),
             5
         );
     }
@@ -80,29 +82,31 @@ export class ENEMY_SPRITE {
             ctx,
             this.time_counter / BASIC_GAME_SETS.game_speed,
             4,
-            { x: this.pos_x - CAMERA.GetPos().x, y: this.pos_y - CAMERA.GetPos().y - 50 },
+            { x: this.pos_x - CAMERA.GetPos().x - 50, y: this.pos_y - CAMERA.GetPos().y - 50 },
             true
         )
     }
     DoAction(ctx: CanvasRenderingContext2D) {
+        if (this.hp <= 0) this.ChangeState('dead');
         switch (this.state) {
             case "idle":
                 this.DrawIdle(ctx);
                 break;
             case "move":
                 this.DrawRun(ctx);
-                this.pos_x --;
+                this.pos_x--;
                 break;
             case "attack":
                 this.DrawAttack(ctx);
                 break;
             case "dead":
                 this.DrawDead(ctx);
+                if (this.time_counter === 4 * BASIC_GAME_SETS.game_speed - 1) this.IsDead = true;
                 break;
             default:
                 console.error("Unknown state: " + this.state);
         }
-        this.DrawHpBar(ctx);
-        this.time_counter ++;
+        if (this.hp > 0) this.DrawHpBar(ctx);
+        this.time_counter++;
     }
 }

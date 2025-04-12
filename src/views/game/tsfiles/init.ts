@@ -13,7 +13,7 @@ export function GameBattleInit() {
     KNIGHT_SPRITE.DeadImage = new Image();
     KNIGHT_SPRITE.DeadImage.src = "/img/knight/Dead.png";
 
-    ENEMY_SPRITE.MaxHP = 80;
+    ENEMY_SPRITE.MaxHP = 120;
     ENEMY_SPRITE.InitialAttack = 10;
 
     ENEMY_SPRITE.IdleImage = new Image();
