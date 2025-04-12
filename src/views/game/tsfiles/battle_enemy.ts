@@ -1,18 +1,25 @@
 import { CAMERA } from "./utils";
-type ENEMY_STATE = 'move' | 'attack';
+type ENEMY_STATE = 'move' | 'attack' | 'idle';
 export class ENEMY_SPRITE {
     static width: number = 30;
     static height: number = 60;
+    static MaxHP: number;
+    static InitialAttack: number;
+    static AttackZone: number;
+
     pos_x: number;
     pos_y: number;
-    private time_counter: number;
-    hp: number = 100;
+    time_counter: number;
+    attack_level:number;
+    hp: number;
     state: ENEMY_STATE;
     constructor(x: number, y: number) {
         this.pos_x = x;
         this.pos_y = y;
+        this.attack_level = ENEMY_SPRITE.InitialAttack;
         this.state = "move";
         this.time_counter = 0;
+        this.hp = ENEMY_SPRITE.MaxHP;
     }
     ChangeState(st: ENEMY_STATE): void {
         if (this.state === st) return;
@@ -31,7 +38,7 @@ export class ENEMY_SPRITE {
         ctx.fillRect(
             this.pos_x - CAMERA.GetPos().x, 
             this.pos_y - CAMERA.GetPos().y + 80, 
-            Math.floor(ENEMY_SPRITE.width * this.hp / 100), 
+            Math.floor(ENEMY_SPRITE.width * this.hp / ENEMY_SPRITE.MaxHP), 
             5
         );
     }
@@ -57,5 +64,6 @@ export class ENEMY_SPRITE {
                 );
         }
         this.DrawHpBar(ctx);
+        this.time_counter ++;
     }
 }

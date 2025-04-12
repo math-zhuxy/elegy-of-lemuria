@@ -33,6 +33,22 @@ export class KNIGHT_SPRITE {
         this.state = st;
         this.time_counter = 0;
     }
+    DrawHpBar(ctx: CanvasRenderingContext2D): void {
+        ctx.fillStyle = "black";
+        ctx.fillRect(
+            this.pos_x - CAMERA.GetPos().x + 15, 
+            this.pos_y - CAMERA.GetPos().y + 80, 
+            40, 
+            5
+        );
+        ctx.fillStyle = "red";
+        ctx.fillRect(
+            this.pos_x - CAMERA.GetPos().x +15, 
+            this.pos_y - CAMERA.GetPos().y + 80, 
+            Math.floor(40 * this.hp / 100), 
+            5
+        );
+    }
     DrawIdle(ctx: CanvasRenderingContext2D): void {
         DrawGameSpriteImage(
             KNIGHT_SPRITE.IdleImage,
@@ -71,13 +87,23 @@ export class KNIGHT_SPRITE {
     }
     JudgeInAttackZone(item: ENEMY_SPRITE): void {
         if (item.pos_x > this.pos_x && item.pos_x < this.pos_x + KNIGHT_SPRITE.AttackZone) {
-            this.ChangeState('attack');
-            item.ChangeState('attack');
-            if ((this.time_counter / BASIC_GAME_SETS.game_speed) % 5 === 4) {
-                item.hp -= this.attack_level;
+            if (this.state === "idle" || this.state === "run") {
+                this.ChangeState('attack');
+                item.ChangeState('attack');
             }
-            if(item.hp < 0){
-                this.ChangeState('idle');
+            if(item.state === "attack") {
+                if ((this.time_counter / BASIC_GAME_SETS.game_speed) % 5 === 4) {
+                    item.hp -= this.attack_level;
+                }
+                if (item.hp < 0) {
+                    this.ChangeState('idle');
+                }
+                if ((item.time_counter / BASIC_GAME_SETS.game_speed) % 5 === 4) {
+                    this.hp -= item.attack_level;
+                }
+                if (this.hp<0){
+                    item.ChangeState('move');
+                }
             }
         }
     }
@@ -101,6 +127,7 @@ export class KNIGHT_SPRITE {
             default:
                 console.error("Unknown state: " + this.state);
         }
+        this.DrawHpBar(ctx);
         this.time_counter++;
     }
 }
