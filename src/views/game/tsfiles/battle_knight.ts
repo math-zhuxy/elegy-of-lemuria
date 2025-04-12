@@ -6,19 +6,20 @@ export class KNIGHT_SPRITE {
     static RunImage: HTMLImageElement;
     static AttackImage: HTMLImageElement;
     static DeadImage: HTMLImageElement;
-
-
+    
+    
+    static AttackZone: number;
     static MaxHP: number;
     static InitialAttack: number;
     IsDead: boolean;
-    private IsDeading: boolean;
 
-    private pos_x: number;
-    private pos_y: number;
+    pos_x: number;
+    pos_y: number;
     private state: KNIGET_STATE;
     private time_counter: number;
-    private hp: number;
+    hp: number;
     private attack_level: number;
+    private attack_zone: number;
 
     constructor(x: number, y: number) {
         this.pos_x = x;
@@ -28,7 +29,7 @@ export class KNIGHT_SPRITE {
         this.hp = KNIGHT_SPRITE.MaxHP;
         this.attack_level = KNIGHT_SPRITE.InitialAttack;
         this.IsDead = false;
-        this.IsDeading = false;
+        this.attack_zone = KNIGHT_SPRITE.AttackZone;
     }
     ChangeState(st: KNIGET_STATE): void {
         if (this.state === st) return;
@@ -92,38 +93,27 @@ export class KNIGHT_SPRITE {
         )
     }
     JudgeInAttackZone(enemy_list: ENEMY_SPRITE[]): void {
-        if(this.IsDeading) return;
         if (enemy_list.length === 0) {
             if (this.state === 'attack') this.ChangeState('idle');
             return;
         }
         for (let i = 0; i < enemy_list.length; i++) {
             let item = enemy_list[i];
-            if (item.IsDeading)continue;
-            if (item.pos_x > this.pos_x && item.pos_x < this.pos_x + BASIC_GAME_SETS.attack_zone) {
-                if ((this.state === "idle" || this.state === "run") && item.state !== 'attack') {
+            if (item.IsDead)continue;
+            if (item.pos_x > this.pos_x && item.pos_x < this.pos_x + this.attack_zone) {
+                if (this.state === "idle" || this.state === "run"){
                     this.ChangeState('attack');
-                    item.ChangeState('attack');
                 }
-                if (item.state === 'attack' && (this.time_counter / BASIC_GAME_SETS.game_speed) % 5 === 4) {
+                if ((this.time_counter / BASIC_GAME_SETS.game_speed) % 5 === 4) {
                     item.hp -= this.attack_level;
                 }
-                if (this.state === 'attack' && (item.time_counter / BASIC_GAME_SETS.game_speed) % 6 === 4) {
-                    this.hp -= item.attack_level;
-                }
-                if (item.hp <= 0) {
-                    this.ChangeState('idle');
-                    item.IsDeading = true;
-                }
-                if (this.hp <= 0) {
-                    item.ChangeState('move');
-                    this.IsDeading = true;
-                }
+                return;
             }
         }
+        if(this.state === 'attack') this.ChangeState('idle');
     }
     DoAction(ctx: CanvasRenderingContext2D): void {
-        if (this.hp <= 0) this.ChangeState('dead');
+        if (this.hp <= 0 && this.state !== 'dead') this.ChangeState('dead');
         switch (this.state) {
             case "idle":
                 this.DrawIdle(ctx);

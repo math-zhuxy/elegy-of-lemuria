@@ -1,13 +1,16 @@
 import { CAMERA, DrawGameSpriteImage, BASIC_GAME_SETS } from "./utils";
+import { KNIGHT_SPRITE } from "./battle_knight";
 type ENEMY_STATE = 'move' | 'attack' | 'idle' | "dead";
 export class ENEMY_SPRITE {
     static MaxHP: number;
     static InitialAttack: number;
+    static AttackZone: number;
 
     static IdleImage: HTMLImageElement;
     static RunImage: HTMLImageElement;
     static AttackImage: HTMLImageElement;
     static DeadImage: HTMLImageElement;
+    private attack_zone: number;
 
     pos_x: number;
     pos_y: number;
@@ -26,6 +29,7 @@ export class ENEMY_SPRITE {
         this.hp = ENEMY_SPRITE.MaxHP;
         this.IsDead = false;
         this.IsDeading = false;
+        this.attack_zone = ENEMY_SPRITE.AttackZone;
     }
     ChangeState(st: ENEMY_STATE): void {
         if (this.state === st) return;
@@ -88,8 +92,28 @@ export class ENEMY_SPRITE {
             true
         )
     }
+    JudgeInAttackZone(knight_list: KNIGHT_SPRITE[]): void {
+        if (knight_list.length === 0) {
+            if (this.state === 'attack') this.ChangeState('idle');
+            return;
+        }
+        for (let i = 0; i < knight_list.length; i++) {
+            let item = knight_list[i];
+            if (item.IsDead)continue;
+            if (item.pos_x < this.pos_x && item.pos_x > this.pos_x - this.attack_zone) {
+                if (this.state === "idle" || this.state === "move"){
+                    this.ChangeState('attack');
+                }
+                if ((this.time_counter / BASIC_GAME_SETS.game_speed) % 5 === 4) {
+                    item.hp -= this.attack_level;
+                }
+                return;
+            }
+        }
+        if(this.state === 'attack') this.ChangeState('move');
+    }
     DoAction(ctx: CanvasRenderingContext2D) {
-        if (this.hp <= 0) this.ChangeState('dead');
+        if (this.hp <= 0 && this.state !== 'dead') this.ChangeState('dead');
         switch (this.state) {
             case "idle":
                 this.DrawIdle(ctx);

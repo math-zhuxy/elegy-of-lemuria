@@ -3,6 +3,7 @@ import { KNIGHT_SPRITE } from "./battle_knight";
 export function GameBattleInit() {
     KNIGHT_SPRITE.MaxHP = 120;
     KNIGHT_SPRITE.InitialAttack = 10;
+    KNIGHT_SPRITE.AttackZone = 80;
 
     KNIGHT_SPRITE.IdleImage = new Image();
     KNIGHT_SPRITE.IdleImage.src = "/img/knight/Idle.png";
@@ -12,9 +13,10 @@ export function GameBattleInit() {
     KNIGHT_SPRITE.AttackImage.src = "/img/knight/Attack.png";
     KNIGHT_SPRITE.DeadImage = new Image();
     KNIGHT_SPRITE.DeadImage.src = "/img/knight/Dead.png";
-
+    
     ENEMY_SPRITE.MaxHP = 120;
     ENEMY_SPRITE.InitialAttack = 10;
+    ENEMY_SPRITE.AttackZone = 80;
 
     ENEMY_SPRITE.IdleImage = new Image();
     ENEMY_SPRITE.IdleImage.src = "/img/skeleton/Idle.png";

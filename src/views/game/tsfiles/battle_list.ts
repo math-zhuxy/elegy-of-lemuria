@@ -20,6 +20,7 @@ export class ListManagement {
             item.DoAction(ctx);
         });
         this.EnemyList.forEach((item) => {
+            item.JudgeInAttackZone(this.KnightList);
             item.DoAction(ctx);
         });
         this.EnemyList = this.EnemyList.filter((item) => {
