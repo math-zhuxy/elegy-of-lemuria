@@ -5,7 +5,6 @@ export class ENEMY_SPRITE {
     static height: number = 60;
     static MaxHP: number;
     static InitialAttack: number;
-    static AttackZone: number;
 
     pos_x: number;
     pos_y: number;

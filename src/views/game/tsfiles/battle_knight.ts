@@ -13,8 +13,9 @@ export class KNIGHT_SPRITE {
     static AttackZone: number;
 
 
-    private pos_x: number;
-    private pos_y: number;
+    pos_x: number;
+    pos_y: number;
+    IsTargeted: boolean;
     private state: KNIGET_STATE;
     private time_counter: number;
     hp: number;
@@ -25,6 +26,7 @@ export class KNIGHT_SPRITE {
         this.pos_y = y;
         this.state = "idle";
         this.time_counter = 0;
+        this.IsTargeted = false;
         this.hp = KNIGHT_SPRITE.MaxHP;
         this.attack_level = KNIGHT_SPRITE.InitialAttack;
     }
@@ -36,16 +38,16 @@ export class KNIGHT_SPRITE {
     DrawHpBar(ctx: CanvasRenderingContext2D): void {
         ctx.fillStyle = "black";
         ctx.fillRect(
-            this.pos_x - CAMERA.GetPos().x + 15, 
-            this.pos_y - CAMERA.GetPos().y + 80, 
-            40, 
+            this.pos_x - CAMERA.GetPos().x + 15,
+            this.pos_y - CAMERA.GetPos().y + 80,
+            40,
             5
         );
         ctx.fillStyle = "red";
         ctx.fillRect(
-            this.pos_x - CAMERA.GetPos().x +15, 
-            this.pos_y - CAMERA.GetPos().y + 80, 
-            Math.floor(40 * this.hp / 100), 
+            this.pos_x - CAMERA.GetPos().x + 15,
+            this.pos_y - CAMERA.GetPos().y + 80,
+            Math.floor(40 * this.hp / KNIGHT_SPRITE.MaxHP),
             5
         );
     }
@@ -85,27 +87,34 @@ export class KNIGHT_SPRITE {
             { x: this.pos_x - CAMERA.GetPos().x, y: this.pos_y - CAMERA.GetPos().y - 50 }
         )
     }
-    JudgeInAttackZone(item: ENEMY_SPRITE): void {
-        if (item.pos_x > this.pos_x && item.pos_x < this.pos_x + KNIGHT_SPRITE.AttackZone) {
-            if (this.state === "idle" || this.state === "run") {
-                this.ChangeState('attack');
-                item.ChangeState('attack');
-            }
-            if(item.state === "attack") {
+    JudgeInAttackZone(enemy_list: ENEMY_SPRITE[]): void {
+        if (enemy_list.length === 0) {
+            if (this.state === 'attack') this.ChangeState('idle');
+            return;
+        }
+        for (let i = 0; i < enemy_list.length; i++) {
+            let item = enemy_list[i];
+            if (item.pos_x > this.pos_x && item.pos_x < this.pos_x + KNIGHT_SPRITE.AttackZone) {
+                if ((this.state === "idle" || this.state === "run") && item.state !== 'attack') {
+                    this.ChangeState('attack');
+                    item.ChangeState('attack');
+                }
                 if ((this.time_counter / BASIC_GAME_SETS.game_speed) % 5 === 4) {
                     item.hp -= this.attack_level;
+                }
+                if (this.state === 'attack' && (item.time_counter / BASIC_GAME_SETS.game_speed) % 5 === 2) {
+                    this.hp -= item.attack_level;
                 }
                 if (item.hp < 0) {
                     this.ChangeState('idle');
                 }
-                if ((item.time_counter / BASIC_GAME_SETS.game_speed) % 5 === 4) {
-                    this.hp -= item.attack_level;
-                }
-                if (this.hp<0){
+                if (this.hp < 0) {
                     item.ChangeState('move');
                 }
+                return;
             }
         }
+        if (this.state === 'attack') this.ChangeState('idle');
     }
     DoAction(ctx: CanvasRenderingContext2D): void {
         switch (this.state) {
@@ -114,6 +123,7 @@ export class KNIGHT_SPRITE {
                 break;
             case "run":
                 this.DrawRun(ctx);
+                this.pos_x++;
                 break;
             case "move":
                 this.DrawRun(ctx);

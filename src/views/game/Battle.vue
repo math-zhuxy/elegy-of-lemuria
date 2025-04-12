@@ -11,22 +11,22 @@ import { ListManagement } from './tsfiles/battle_list';
 import { GameBattleInit } from './tsfiles/init';
 let GameLoop: number;
 GameBattleInit();
-let sss = new KNIGHT_SPRITE(0, 0);
+// let sss = new KNIGHT_SPRITE(0, 0);
 const GameList = new ListManagement(3);
 function HandleKeydown(event: KeyboardEvent) {
     KEYBOARD.KeyDown(event.key);
-    if (event.key === 'e') {
-        sss.ChangeState("run")
-    }
-    else if (event.key === 'q') {
-        sss.ChangeState("attack");
-    }
-    else if(event.key === 't'){
-        sss.ChangeState("dead");
-    }
-    else {
-        sss.ChangeState('idle');
-    };
+    // if (event.key === 'e') {
+    //     sss.ChangeState("run")
+    // }
+    // else if (event.key === 'q') {
+    //     sss.ChangeState("attack");
+    // }
+    // else if(event.key === 't'){
+    //     sss.ChangeState("dead");
+    // }
+    // else {
+    //     sss.ChangeState('idle');
+    // };
 }
 function HandleKeyUp(event: KeyboardEvent) {
     KEYBOARD.KeyUp(event.key);
@@ -47,12 +47,12 @@ onMounted(() => {
     window.addEventListener('mousemove', HandleMouseMove);
     GameList.AddKnight(100);
     GameList.AddKnight(200);
-    GameList.AddEnemy(300);
     GameList.AddEnemy(400);
+    GameList.AddEnemy(500);
     let cnt = 0;
     GameLoop = setInterval(() => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        sss.DoAction(ctx);
+        // sss.DoAction(ctx);
         cnt++;
         KEYBOARD.MoveCamera();
         GameList.DoAllActions(ctx);
