@@ -35,7 +35,7 @@ export function StartGame() {
         KEYBOARD.KeyUp(event.key);
     }
     function HandleMouseClick(event: MouseEvent) {
-        if(UserState === 'place'){
+        if (UserState === 'place') {
             const rect = canvas.getBoundingClientRect();
             const x = event.clientX - rect.left + CAMERA.GetPos().x;
             const y = event.clientY - rect.top + CAMERA.GetPos().y;
@@ -44,13 +44,14 @@ export function StartGame() {
         }
     }
     function HandleMouseDown(event: MouseEvent) {
-        if(UserState === 'drag'){
+        if (UserState === 'drag') {
             MOUSE.IsDrawing = true;
             const rect = canvas.getBoundingClientRect();
             MOUSE.StartX = event.clientX - rect.left;
             MOUSE.StartY = event.clientY - rect.top;
         }
     }
+
     function HandleMouseMove(event: MouseEvent) {
         const rect = canvas.getBoundingClientRect();
         MOUSE.UpdatePos(event.clientX - rect.left, event.clientY - rect.top);
@@ -69,7 +70,7 @@ export function StartGame() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         KEYBOARD.MoveCamera();
         GameManage.DoAction(ctx);
-        if(MOUSE.IsDrawing && UserState === 'drag') ctx.strokeRect(
+        if (MOUSE.IsDrawing && UserState === 'drag') ctx.strokeRect(
             MOUSE.StartX,
             MOUSE.StartY,
             MOUSE.GetPos().x - MOUSE.StartX,
