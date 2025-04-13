@@ -86,6 +86,9 @@ export class KEYBOARD {
 export class MOUSE {
     private static pos_x: number = 0;
     private static pos_y: number = 0;
+    static IsDrawing = false;
+    static StartX: number = 0;
+    static StartY: number = 0;
     static UpdatePos(x: number, y: number): void {
         this.pos_x = x;
         this.pos_y = y;
