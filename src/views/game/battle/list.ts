@@ -1,5 +1,5 @@
-import { ENEMY_SPRITE } from "./battle_enemy";
-import { KNIGHT_SPRITE } from "./battle_knight";
+import { ENEMY_SPRITE } from "./enemy";
+import { KNIGHT_SPRITE } from "./knight";
 export class ListManagement {
     static ListLength: number;
     KnightList: KNIGHT_SPRITE[] = [];
@@ -45,5 +45,13 @@ export class GameSpriteManagement {
     }
     DoAction(ctx: CanvasRenderingContext2D): void {
         this.ListSet.forEach((ele) => ele.DoAllActions(ctx));
+    }
+    AddKnight(x: number, y: number):void{
+        const set_index = Math.min(Math.floor(y / ListManagement.ListLength), 14);
+        this.ListSet[set_index].AddKnight(x);
+    }
+    AddEnemy(x: number, y:number): void{
+        const set_index = Math.min(Math.floor(y / ListManagement.ListLength), 14);
+        this.ListSet[set_index].AddEnemy(x);
     }
 }

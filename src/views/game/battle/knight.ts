@@ -1,4 +1,4 @@
-import type { ENEMY_SPRITE } from "./battle_enemy";
+import type { ENEMY_SPRITE } from "./enemy";
 import { BASIC_GAME_SETS, CAMERA, DrawGameSpriteImage } from "./utils";
 type KNIGET_STATE = "idle" | "run" | "attack" | "move" | "dead";
 export class KNIGHT_SPRITE {

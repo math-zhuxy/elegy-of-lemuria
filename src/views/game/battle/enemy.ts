@@ -1,5 +1,5 @@
 import { CAMERA, DrawGameSpriteImage, BASIC_GAME_SETS } from "./utils";
-import { KNIGHT_SPRITE } from "./battle_knight";
+import { KNIGHT_SPRITE } from "./knight";
 type ENEMY_STATE = 'move' | 'attack' | 'idle' | "dead";
 export class ENEMY_SPRITE {
     static MaxHP: number;

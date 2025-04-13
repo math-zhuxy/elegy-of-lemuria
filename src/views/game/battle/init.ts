@@ -1,5 +1,5 @@
-import { ENEMY_SPRITE } from "./battle_enemy";
-import { KNIGHT_SPRITE } from "./battle_knight";
+import { ENEMY_SPRITE } from "./enemy";
+import { KNIGHT_SPRITE } from "./knight";
 export function GameBattleInit() {
     KNIGHT_SPRITE.MaxHP = 120;
     KNIGHT_SPRITE.InitialAttack = 10;
